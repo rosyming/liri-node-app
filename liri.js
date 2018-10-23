@@ -39,16 +39,30 @@ switch (action) {
 // Concert Search Function
 function concertSearch() {
     var request = require('request');
+    var bandName = '';
 
-    request('https://rest.bandsintown.com/artists/' + value + '/events?app_id=codingbootcamp', function (error, response, body) {
+    // Allowing for mult-word searches
+    for (var i = 3; i < nodeArgs.length; i++) {
+        if (i > 3 && i < nodeArgs.length) {
+            bandName = bandName + '+' + nodeArgs[i];
+        } else {
+            bandName += nodeArgs[i];
+        };
+    };
 
+    // API HTTP Request
+    var bandQueryUrl = 'https://rest.bandsintown.com/artists/' + value + '/events?app_id=codingbootcamp';
+    
+    request(bandQueryUrl, function (error, response, body) {
+    
         // If the request is successful (i.e. if the response status code is 200)
         if (!error && response.statusCode === 200) {
 
-            // Parse the body of the site and recover just the imdbRating
-            // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+            // Parse the body of the site and recover Title, Year, imdbRating, Rotton Tomatoes Rating, Country, Language, Plot, and Actors
+            console.log('-------------');
             console.log('Upcoming concerts for ' + value + ':')
-            console.log('The movie\'s rating is: ' + JSON.parse(body).name);
+            console.log('The artist name: ' + JSON.parse(body).id);
+            console.log('-------------');
         }
     });
 };
@@ -65,13 +79,14 @@ function spotifySearch() {
     spotify.search({
         type: 'track',
         query: value,
-        limit: 10
+        limit: 10, 
+        callback
     }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
 
-        console.log('My spotify song:' + JSON.stringify(data));
+        console.log('My spotify song:' + JSON.parse(data));
     });
 };
 
@@ -80,6 +95,7 @@ function movieSearch() {
     var request = require('request');
     var movieName = '';
 
+    // Allowing for mult-word searches
     for (var i = 3; i < nodeArgs.length; i++) {
         if (i > 3 && i < nodeArgs.length) {
             movieName = movieName + '+' + nodeArgs[i];
@@ -88,12 +104,13 @@ function movieSearch() {
         };
     };
 
-    var queryUrl = 'http://www.omdbapi.com/?t=' + value + '&y=&plot=short&apikey=trilogy';
-    var queryUrl2 = 'http://www.omdbapi.com/?t=Mr.Nobody&y=&plot=short&apikey=trilogy';
+    // API HTTP Request
+    var movieQueryUrl = 'http://www.omdbapi.com/?t=' + value + '&y=&plot=short&apikey=trilogy';
+    var movieQueryUrl2 = 'http://www.omdbapi.com/?t=Mr.Nobody&y=&plot=short&apikey=trilogy';
 
-    console.log(queryUrl);
+    console.log(movieQueryUrl);
 
-    request(queryUrl, function (error, response, body) {
+    request(movieQueryUrl, function (error, response, body) {
 
         // If the request is successful
         if (!error && response.statusCode === 200) {
@@ -112,7 +129,7 @@ function movieSearch() {
         };
 
         if (value === '')
-            return request(queryUrl2, function (error, response, body) {
+            return request(movieQueryUrl2, function (error, response, body) {
                 // If the request is successful
                 if (!error && response.statusCode === 200) {
 

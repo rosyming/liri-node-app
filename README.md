@@ -1,6 +1,6 @@
 ## liri-node-app
 ### GATech Coding Bootcamp Homework: liri-node-app
-Updated: 10/23/18
+Updated: 10/24/18
 
 - - -
 ### Overview
@@ -13,9 +13,9 @@ LIRI will search Spotify for songs, Bands in Town for concerts, and OMDB for mov
 1. Start node in bash terminal referencing the liri.js file (node liri.js)
 
 2. Enter in one of these commands
-    * concert-this <artist/band name here>
-    * spotify-this-song <song name here>
-    * movie-this <movie name here>
+    * concert-this "artist/band name here"
+    * spotify-this-song "song name here"
+    * movie-this "movie name here"
     * do-what-it-says
 
 3. After the command enter in a search term related to the command. For example:

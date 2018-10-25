@@ -161,8 +161,3 @@ function doThis (value) {
 
 // Starting Switch Function
 Switching(action, value);
-
-
-
-
-
